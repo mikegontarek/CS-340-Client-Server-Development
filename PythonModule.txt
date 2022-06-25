@@ -1,0 +1,46 @@
+from pymongo import MongoClient
+from bson.objectid import ObjectId
+
+class AnimalShelter(object):
+    """ CRUD operations for Animal collection in MongoDB """
+
+    def __init__(self, username, password):
+        
+        # Initializing the MongoClient. This helps to 
+        # access the MongoDB databases and collections. 
+        self.client = MongoClient('mongodb://%s:%s@localhost:39894' % (username, password))
+        # where xxxxx is your unique port number
+        self.database = self.client['AAC']
+
+# Complete this create method to implement the C in CRUD.
+    def create(self, data):
+        if data is not None:
+            self.database.animals.insert(data)  # data should be dictionary  
+            insert = self.databse.animals.insert(data)
+        if insert!= 0:
+            return True
+        else:
+            raise Exception("Nothing to save, because data parameter is empty")
+
+# Create method to implement the R in CRUD. 
+    def read(self, criteria = None):
+        if criteria:     
+            data = self.database.animals.find(criteria, {"_id": False})
+        else:
+            data = self.database.animals.find({}, {"_id": False})
+            return data
+             
+# Create method to implement the U in CRUD.
+    def update(self,data):
+        if data is not none:
+            self.database.animals.update(data.get_as_json())
+        else:
+            raise exceptions("nothing to update, because parameter is empty")
+ 
+
+ #Create method to implement the D in CRUD.
+    def delete(self,data):
+        if data is not none:
+            self.database.animals.remove(data.get_as_json())
+        else: 
+            raise exceptions("nothing to delete, because parameter is empty")
